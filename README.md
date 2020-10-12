@@ -1,5 +1,8 @@
 # flutterauth0demo
 
+## This project is from following this tutorial:
+- [Getting Started with Flutter Authentication](https://auth0.com/blog/get-started-with-flutter-authentication/#Integrate-Auth0-with-Flutter)
+
 A new Flutter project.
 
 ## Getting Started

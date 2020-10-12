@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
@@ -95,7 +96,13 @@ class Login extends StatelessWidget {
 ///                 App
 /// -----------------------------------
 
-void main() => runApp(MyApp());
+// void main() => runApp(MyApp());
+
+void main() {
+  if (kIsWeb) {
+    runApp(MyApp());
+  }
+}
 
 class MyApp extends StatefulWidget {
   @override
