@@ -3,15 +3,10 @@
 /// -----------------------------------
 
 import 'package:flutter/material.dart';
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_appauth/flutter_appauth.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
-final FlutterAppAuth appAuth = FlutterAppAuth();
-final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+import 'auth.dart';
 
 /// -----------------------------------
 ///           Auth0 Variables
@@ -31,6 +26,7 @@ class Profile extends StatelessWidget {
   final logoutAction;
   final String name;
   final String picture;
+  
 
   Profile(this.logoutAction, this.name, this.picture);
 
@@ -82,9 +78,10 @@ class Login extends StatelessWidget {
       children: <Widget>[
         RaisedButton(
           onPressed: () {
-            loginAction();
+            //loginAction();
+            universalLogin();
           },
-          child: Text('Login'),
+          child: Text('Universal Login'),
         ),
         Text(loginError ?? ''),
       ],
@@ -133,7 +130,7 @@ class _MyAppState extends State<MyApp> {
               ? CircularProgressIndicator()
               : isLoggedIn
                   ? Profile(logoutAction, name, picture)
-                  : Login(loginAction, errorMessage),
+                  : Login(loginAction, errorMessage), 
         ),
       ),
     );
@@ -173,6 +170,7 @@ class _MyAppState extends State<MyApp> {
     });
 
     try {
+      /*
       final AuthorizationTokenResponse result =
           await appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
@@ -183,12 +181,12 @@ class _MyAppState extends State<MyApp> {
           // promptValues: ['login']
         ),
       );
+      */
 
-      final idToken = parseIdToken(result.idToken);
-      final profile = await getUserDetails(result.accessToken);
+      final idToken = null; //parseIdToken(result.idToken);
+      final profile = null; //await getUserDetails(result.accessToken);
 
-      await secureStorage.write(
-          key: 'refresh_token', value: result.refreshToken);
+      //await secureStorage.write(key: 'refresh_token', value: result.refreshToken);
 
       setState(() {
         isBusy = false;
@@ -208,7 +206,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void logoutAction() async {
-    await secureStorage.delete(key: 'refresh_token');
+    //await secureStorage.delete(key: 'refresh_token');
     setState(() {
       isLoggedIn = false;
       isBusy = false;
@@ -222,25 +220,31 @@ class _MyAppState extends State<MyApp> {
   }
 
   void initAction() async {
-    final storedRefreshToken = await secureStorage.read(key: 'refresh_token');
-    if (storedRefreshToken == null) return;
+    
+    //final storedRefreshToken = await secureStorage.read(key: 'refresh_token');
+    //if (storedRefreshToken == null) return;
 
+    /*
     setState(() {
       isBusy = true;
     });
 
     try {
-      final response = await appAuth.token(TokenRequest(
+      final response = null;
+      
+      /*
+      await appAuth.token(TokenRequest(
         AUTH0_CLIENT_ID,
         AUTH0_REDIRECT_URI,
         issuer: AUTH0_ISSUER,
         refreshToken: storedRefreshToken,
       ));
+      */
 
-      final idToken = parseIdToken(response.idToken);
-      final profile = await getUserDetails(response.accessToken);
+      final idToken = null;  //parseIdToken(response.idToken);
+      final profile = null; //await getUserDetails(response.accessToken);
 
-      secureStorage.write(key: 'refresh_token', value: response.refreshToken);
+      //secureStorage.write(key: 'refresh_token', value: response.refreshToken);
 
       setState(() {
         isBusy = false;
@@ -252,5 +256,7 @@ class _MyAppState extends State<MyApp> {
       print('error on refresh token: $e - stack: $s');
       logoutAction();
     }
+    */
   }
+
 }
